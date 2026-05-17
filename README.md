@@ -5,43 +5,27 @@
 
 # DDEV Drupal Contrib Lite
 
-DDEV integration for developing Drupal contrib projects. As a general philosophy, your contributed module/theme is the center of the universe. The codebase layout (see image below) and commands in this project [match the Gitlab CI approach](https://git.drupalcode.org/project/gitlab_templates) from the Drupal Association.
+DDEV integration for developing Drupal contrib projects. This add-on uses a standard Drupal  codebase layout (see image below) and commands in this project [match the Gitlab CI approach](https://git.drupalcode.org/project/gitlab_templates) from the Drupal Association.
 
 
 ## Install
 
 1. If you haven't already, [install Docker and DDEV](https://ddev.readthedocs.io/en/latest/users/install/)
-2. `git clone` your contrib module
-3. cd [contrib module directory]
-4. Execute the commands below, adjust as needed.
+2. Install Drupal in a new DDEV environment as per the CMS Quickstarts, for
+   either [Drupal core](https://docs.ddev.com/en/stable/users/quickstart/#drupal) or [Drupal CMS](https://docs.ddev.com/en/stable/users/quickstart/#drupal-drupal-cms).
+3. If your projects are available via composer you can bring them in using
+   `ddev composer require drupal/[project_name] --prefer-source` optionally
+   specifying the dev branch. Otherwise,
+   `git clone` your project(s) in `/sites/modules/custom` or the appropriate
+   equiavelent.
+4. If necessary, use `git checkout` on any imported projects to ensure the
+   correct target branch is in use.
 
-```sh
-# Configure DDEV for Drupal, or use interactive mode.
-ddev config --project-type=drupal11 --docroot=web
-ddev add-on get ddev/ddev-drupal-contrib
-ddev start
-ddev poser
-ddev symlink-project
-# Detect expected Drupal and PHP versions.
-ddev config --update
-```
-
-## Update
-
-```bash
-ddev add-on get ddev/ddev-drupal-contrib
-ddev restart
-```
 
 ## Commands
 
 This project provides the following DDEV container commands.
 
-- [ddev poser](https://github.com/ddev/ddev-drupal-contrib/blob/main/commands/web/poser).
-  - Creates a temporary [composer.contrib.json](https://getcomposer.org/doc/03-cli.md#composer) so that `drupal/core-recommended` becomes a dev dependency. This way the composer.json from the module is untouched.
-  - Runs `composer install` so that dependencies are available. Additional arguments to `ddev poser` like `--prefer-source` are passed along to `composer install`
-  - Note: it is perfectly acceptable to skip this command and edit the require-dev of composer.json by hand.
-- [ddev symlink-project](https://github.com/ddev/ddev-drupal-contrib/blob/main/commands/web/symlink-project). Symlinks your project files into the configured location (defaults to `web/modules/custom`) so Drupal can find your module. This command runs automatically on every `ddev start` _as long as Composer has generated `vendor/autoload.php`_ which occurs during `composer install/update`. See codebase image below.
 - `ddev phpunit` Run [PHPUnit](https://github.com/sebastianbergmann/phpunit) tests.
 - `ddev nightwatch` Run Nightwatch tests, requires [DDEV Selenium Standalone Chrome](https://github.com/ddev/ddev-selenium-standalone-chrome).
 - `ddev phpcs` Run [PHP_CodeSniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer).
@@ -190,5 +174,5 @@ To learn more about Bats, see the [documentation][bats-docs].
 
 ## Credits
 
-Contributed and maintained by Moshe Weitzman ([@weitzman](https://github.com/weitzman)) and 
+Contributed and maintained by Martin Anderson-Clutz  ([@mandclu](https://github.com/mandclu)), but building on work by Moshe Weitzman ([@weitzman](https://github.com/weitzman)) and
 Dezső BICZÓ  ([@mxr576](https://github.com/mxr576))
