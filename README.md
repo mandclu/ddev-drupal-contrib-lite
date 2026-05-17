@@ -3,7 +3,7 @@
 [![last commit](https://img.shields.io/github/last-commit/ddev/ddev-drupal-contrib)](https://github.com/ddev/ddev-drupal-contrib/commits)
 [![release](https://img.shields.io/github/v/release/ddev/ddev-drupal-contrib)](https://github.com/ddev/ddev-drupal-contrib/releases/latest)
 
-# DDEV Drupal Contrib
+# DDEV Drupal Contrib Lite
 
 DDEV integration for developing Drupal contrib projects. As a general philosophy, your contributed module/theme is the center of the universe. The codebase layout (see image below) and commands in this project [match the Gitlab CI approach](https://git.drupalcode.org/project/gitlab_templates) from the Drupal Association.
 
