@@ -1,4 +1,4 @@
-name: ddev-drupal-contrib
+name: ddev-drupal-contrib-lite
 
 project_files:
   - commands/host/core-version
