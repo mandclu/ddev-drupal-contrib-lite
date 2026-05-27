@@ -20,6 +20,22 @@ DDEV integration for developing Drupal contrib projects. This add-on uses a stan
    equiavelent.
 4. If necessary, use `git checkout` on any imported projects to ensure the
    correct target branch is in use.
+5. Execute the commands below, adjust as needed.
+
+```sh
+# Add this DDEV add-on.
+ddev add-on get mandclu/ddev-drupal-contrib-lite
+# Pull in the add-on dependencies.
+ddev poser
+# Detect expected Drupal and PHP versions.
+ddev config --update
+```
+5. To use eslint locally, there is one additional step:
+
+```sh
+# Use yarn to install node_modules.
+ddev exec "cd web/core && yarn install"
+```
 
 
 ## Commands
@@ -137,6 +153,10 @@ ddev phpcbf -q
 ```
 
 3. Mark the file as executable: `chmod +x pre-commit`.
+
+## AGENTS.md
+
+This project contains an AGENTS.md file with instructions on how to use the commands provided. It may be useful to copy some or all of this content into your project's AGENTS.md files, or potentially reference the provided file so that AI agents can access it as needed.
 
 ## Troubleshooting
 
