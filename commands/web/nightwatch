@@ -3,10 +3,18 @@
 #ddev-generated
 ## Command provided by https://github.com/ddev/ddev-drupal-contrib
 ## Description: Run nightwatch inside the web container
-## Usage: nightwatch [flags] [args]
-## Example: "ddev nightwatch"
+## Usage: nightwatch [target] [flags] [args]
+## Example: "ddev nightwatch" (runs against all projects in $DRUPAL_PROJECTS_PATH)
+## Example: "ddev nightwatch ." (runs against the current working directory)
+## Example: "ddev nightwatch web/modules/custom/mymodule" (runs against a specific directory)
 ## ExecRaw: true
 
 set -eu -o pipefail
 
-yarn --cwd "$DDEV_DOCROOT/core" test:nightwatch  "$DDEV_APPROOT/$DDEV_DOCROOT/$DRUPAL_PROJECTS_PATH/" "$@"
+if [ $# -gt 0 ] && [[ "$1" != -* ]] && [ -e "$1" ]; then
+  TARGET_PATH="$1"
+  shift
+else
+  TARGET_PATH="$DDEV_APPROOT/$DDEV_DOCROOT/$DRUPAL_PROJECTS_PATH/"
+fi
+yarn --cwd "$DDEV_DOCROOT/core" test:nightwatch "$TARGET_PATH" "$@"

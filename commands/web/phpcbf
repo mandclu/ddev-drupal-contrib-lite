@@ -3,8 +3,10 @@
 #ddev-generated
 ## Command provided by https://github.com/ddev/ddev-drupal-contrib
 ## Description: Run phpcbf inside the web container
-## Usage: phpcbf [flags] [args]
-## Example: "ddev phpcbf" or "ddev phpcbf -n"
+## Usage: phpcbf [target] [flags] [args]
+## Example: "ddev phpcbf" (runs against all projects in $DRUPAL_PROJECTS_PATH)
+## Example: "ddev phpcbf ." (runs against the current working directory)
+## Example: "ddev phpcbf web/modules/custom/mymodule" (runs against a specific directory)
 ## ExecRaw: true
 
 set -eu -o pipefail
@@ -14,4 +16,10 @@ if ! command -v phpcbf >/dev/null; then
   exit 1
 fi
 test -e phpcs.xml.dist || curl -OL https://git.drupalcode.org/project/gitlab_templates/-/raw/default-ref/assets/phpcs.xml.dist
-phpcbf -s --report-full --report-summary --report-source $DDEV_DOCROOT/$DRUPAL_PROJECTS_PATH "$@"
+if [ $# -gt 0 ] && [[ "$1" != -* ]] && [ -e "$1" ]; then
+  TARGET_PATH="$1"
+  shift
+else
+  TARGET_PATH="$DDEV_DOCROOT/$DRUPAL_PROJECTS_PATH"
+fi
+phpcbf -s --report-full --report-summary --report-source "$TARGET_PATH" "$@"

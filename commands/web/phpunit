@@ -3,9 +3,10 @@
 #ddev-generated
 ## Command provided by https://github.com/ddev/ddev-drupal-contrib
 ## Description: Run phpunit inside the web container
-## Usage: phpunit [flags] [args]
-## Example: "ddev phpunit" or "ddev phpunit --stop-on-failure"
-## Example: "ddev phpunit web/modules/custom/mymodule/tests/src/Unit/MyTest.php"
+## Usage: phpunit [target] [flags] [args]
+## Example: "ddev phpunit" (runs against all projects in $DRUPAL_PROJECTS_PATH)
+## Example: "ddev phpunit ." (runs against the current working directory)
+## Example: "ddev phpunit web/modules/custom/mymodule" (runs against a specific directory)
 ## Example: "ddev phpunit --filter testMyFunction"
 ## ExecRaw: true
 

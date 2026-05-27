@@ -35,6 +35,12 @@ This project provides the following DDEV container commands.
 - `ddev stylelint` Run [Stylelint](https://github.com/stylelint/stylelint) on CSS files.
 - `ddev core-version`. Update your codebase to a newer or older version of Drupal core. [More info](#changing-the-drupal-core-version).
 
+All linting and analysis commands (`phpcs`, `phpcbf`, `phpstan`, `phpunit`, `eslint`, `stylelint`, `nightwatch`) accept an optional target as their first argument:
+
+- Omit the target to run against all projects in the configured `$DRUPAL_PROJECTS_PATH`.
+- Pass `.` to run against the current working directory.
+- Pass a specific path to target any directory, e.g. `ddev phpcs web/modules/custom/mymodule`.
+
 ## Codebase layout
 
 ![Folder tree](/assets/folders.png)
@@ -110,10 +116,11 @@ Time: 00:13.453, Memory: 4.00 MB
 OK (3 tests, 20 assertions)
 ```
 
-To run a single test class, make sure to use the path relative to the `web` directory. Or use --filter to refer to a test class or method. For example:
+To run a single test class or directory, pass the path as the first argument. Or use `--filter` to refer to a test class or method. For example:
 
 ```
-ddev phpunit --filter MyTest.php
+ddev phpunit web/modules/custom/mymodule
+ddev phpunit web/modules/custom/mymodule/tests/src/Unit/MyTest.php
 ddev phpunit --filter testMyFunction
 ```
 

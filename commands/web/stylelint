@@ -3,17 +3,25 @@
 #ddev-generated
 ## Command provided by https://github.com/ddev/ddev-drupal-contrib
 ## Description: Run stylelint inside the web container
-## Usage: stylelint [flags] [args]
-## Example: "ddev stylelint"
+## Usage: stylelint [target] [flags] [args]
+## Example: "ddev stylelint" (runs against all projects in $DRUPAL_PROJECTS_PATH)
+## Example: "ddev stylelint ." (runs against the current working directory)
+## Example: "ddev stylelint web/modules/custom/mymodule" (runs against a specific directory)
 ## ExecRaw: true
 
 set -eu -o pipefail
 
 if "$DDEV_DOCROOT/core/node_modules/.bin/stylelint" --version >/dev/null ; then
-  # Configure prettier
+  # Configure prettier in working directory (searched by prettier traversing up)
   test -e .prettierrc.json || ln -s $DDEV_DOCROOT/core/.prettierrc.json .
-  # Change directory to the project root folder
-  cd "$DDEV_DOCROOT/$DRUPAL_PROJECTS_PATH/${DDEV_SITENAME//-/_}" || exit
+  # Use first arg as target directory if it exists as a path
+  if [ $# -gt 0 ] && [[ "$1" != -* ]] && [ -e "$1" ]; then
+    TARGET_DIR="$1"
+    shift
+  else
+    TARGET_DIR="$DDEV_DOCROOT/$DRUPAL_PROJECTS_PATH"
+  fi
+  cd "$TARGET_DIR" || exit
   "$DDEV_COMPOSER_ROOT/$DDEV_DOCROOT/core/node_modules/.bin/stylelint" --color --config "$DDEV_COMPOSER_ROOT/$DDEV_DOCROOT/core/.stylelintrc.json" "./**/*.css" "$@"
 else
   echo "stylelint is not available. You may need to 'ddev exec \"cd $DDEV_DOCROOT/core && yarn install\"'"

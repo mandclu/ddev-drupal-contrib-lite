@@ -3,8 +3,10 @@
 #ddev-generated
 ## Command provided by https://github.com/ddev/ddev-drupal-contrib
 ## Description: Run phpstan inside the web container
-## Usage: phpstan [flags] [args]
-## Example: "ddev phpstan" or "ddev phpstan -n"
+## Usage: phpstan [target] [flags] [args]
+## Example: "ddev phpstan" (runs against all projects in $DRUPAL_PROJECTS_PATH)
+## Example: "ddev phpstan ." (runs against the current working directory)
+## Example: "ddev phpstan web/modules/custom/mymodule" (runs against a specific directory)
 ## ExecRaw: true
 ## MutagenSync: true
 
@@ -20,7 +22,12 @@ sed -i 's/BASELINE_PLACEHOLDER/phpstan-baseline.neon/g' phpstan.neon
 # Add an empty baseline file to ensure it exists.
 test -e phpstan-baseline.neon || touch phpstan-baseline.neon
 
-EXTENSION_DIRECTORY=$DDEV_DOCROOT/$DRUPAL_PROJECTS_PATH/${DDEV_SITENAME//-/_}
+if [ $# -gt 0 ] && [[ "$1" != -* ]] && [ -e "$1" ]; then
+  EXTENSION_DIRECTORY="$1"
+  shift
+else
+  EXTENSION_DIRECTORY=$DDEV_DOCROOT/$DRUPAL_PROJECTS_PATH
+fi
 cd "$EXTENSION_DIRECTORY" || exit 1
 # Ensure PHPStan configuration is symlinked from project root.
 ln -s $DDEV_DOCROOT/phpstan.neon 2>/dev/null || true
