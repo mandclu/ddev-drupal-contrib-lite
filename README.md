@@ -3,6 +3,8 @@
 [![last commit](https://img.shields.io/github/last-commit/ddev/ddev-drupal-contrib)](https://github.com/ddev/ddev-drupal-contrib/commits)
 [![release](https://img.shields.io/github/v/release/ddev/ddev-drupal-contrib)](https://github.com/ddev/ddev-drupal-contrib/releases/latest)
 
+**[NOTE]** This add-on is now deprecated. Please use [DDEV Module Developer](https://github.com/mandclu/ddev-module-developer) instead.
+
 # DDEV Drupal Contrib Lite
 
 DDEV integration for developing Drupal contrib projects. This add-on uses a standard Drupal  codebase layout (see image below) and commands in this project [match the Gitlab CI approach](https://git.drupalcode.org/project/gitlab_templates) from the Drupal Association.
